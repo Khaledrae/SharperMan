@@ -1,0 +1,6 @@
+@KipandeSystem_HostAddress = http://localhost:5181
+
+GET {{KipandeSystem_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
