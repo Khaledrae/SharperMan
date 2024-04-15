@@ -8,4 +8,5 @@ public class Id
     public string DateOfIssue { get; set; }
     public int Agency { get; set; }
     public int SerialNo { get; set; }
+    public string Status { get; set; }   
 }

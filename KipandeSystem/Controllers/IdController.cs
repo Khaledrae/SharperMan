@@ -32,7 +32,7 @@ namespace KipandeSystem.Controllers
             }
         }
         [HttpGet("{IdNo}", Name = "SearchId")]
-        public ActionResult<Id> SearchId(int IdNo)
+        public ActionResult<IdDTO> SearchId(int IdNo)
         {
             if (IdNo <= 0)
                 return BadRequest();
@@ -40,14 +40,25 @@ namespace KipandeSystem.Controllers
             Id ids = IdRepository.IdRepo.FirstOrDefault(n => n.IdNo == IdNo);
             if (ids != null)
             {
-                /*int AgentId = ids.Agency;
-                Agent agent = AgentRepository.AgentRepo.FirstOrDefault( o => o.AgentId == AgentId);
-                if (agent != null) 
-                    return Ok(agent);
+                int AgentId = ids.Agency;
+                Agent agent = AgentRepository.AgentRepo.FirstOrDefault(o => o.AgentId == AgentId);
+                if (agent != null)
+                {
+                    IdDTO idDTO = new()
+                    {
+                        IdNo = ids.IdNo,
+                        FirstName = ids.FirstName,
+                        LastName = ids.LastName,
+                        DateOfIssue = ids.DateOfIssue,
+                        SerialNo = ids.SerialNo,
+                        AgencyId = agent.AgentId,
+                        AgencyName = agent.AgentName,
+                        AgencyTel = agent.AgentTel
+                    };
+                    return Ok(idDTO);
+                }
                 else
                     return NotFound();
-                */
-                return Ok(ids);
             }
             else
                 return NotFound($"id {ids} not found");
@@ -55,7 +66,7 @@ namespace KipandeSystem.Controllers
         [HttpPost("save", Name = "SaveNewId")]
         [ProducesResponseType(typeof(int), 200)]
         [ProducesResponseType(typeof(int), 500)]
-        public ActionResult<IdDTO> SaveNewId([FromBody]IdDTO dto)
+        public ActionResult<Id> SaveNewId([FromBody]Id dto)
         {
             if (dto ==  null)
                 return BadRequest();
